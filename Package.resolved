@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "FeistyDB",
+        "repositoryURL": "https://github.com/wildthink/FeistyDB",
+        "state": {
+          "branch": "master",
+          "revision": "d88160a590dd56e39caf382f7e15f18ae6298f2e",
+          "version": null
+        }
+      },
+      {
+        "package": "Runtime",
+        "repositoryURL": "https://github.com/wildthink/Runtime",
+        "state": {
+          "branch": "master",
+          "revision": "407d0e03c4282458be676256a142cf29fc9b0683",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
