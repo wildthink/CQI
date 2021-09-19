@@ -18,8 +18,13 @@ let package = Package(
             targets: ["CQI"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/wildthink/MomXML", .branch("master")),
         .package(url: "https://github.com/wildthink/FeistyDB", .branch("master")),
         .package(url: "https://github.com/wildthink/Runtime", .branch("master")),
+        .package(name: "SnapshotTesting",
+                 url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
+                 from: "1.9.0"),
+
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -28,11 +33,15 @@ let package = Package(
             name: "CQI",
             dependencies: [
                 "FeistyDB",
+                "MomXML",
                 .product(name: "Runtime", package: "Runtime"),
                 .product(name: "FeistyExtensions", package: "FeistyDB"),
             ]),
         .testTarget(
             name: "CQITests",
-            dependencies: ["CQI"]),
+            dependencies: [
+                "CQI",
+//                .product(name: "SnapshotTesting", package: "SnapshotTesting"),
+            ]),
     ]
 )

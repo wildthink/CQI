@@ -6,7 +6,16 @@
         "repositoryURL": "https://github.com/wildthink/FeistyDB",
         "state": {
           "branch": "master",
-          "revision": "d88160a590dd56e39caf382f7e15f18ae6298f2e",
+          "revision": "d7ecd384800a85682e90aec5338016b48b87b0eb",
+          "version": null
+        }
+      },
+      {
+        "package": "MomXML",
+        "repositoryURL": "https://github.com/wildthink/MomXML",
+        "state": {
+          "branch": "master",
+          "revision": "a2d2420d7011fbdaa74999b246b5a2ca404f71a5",
           "version": null
         }
       },
@@ -17,6 +26,15 @@
           "branch": "master",
           "revision": "407d0e03c4282458be676256a142cf29fc9b0683",
           "version": null
+        }
+      },
+      {
+        "package": "SnapshotTesting",
+        "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing.git",
+        "state": {
+          "branch": null,
+          "revision": "f8a9c997c3c1dab4e216a8ec9014e23144cbab37",
+          "version": "1.9.0"
         }
       }
     ]

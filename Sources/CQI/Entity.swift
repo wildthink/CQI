@@ -7,32 +7,36 @@
 
 import Foundation
 
-public protocol TypedEntity {
-    static var entityType: EntityType { get }
+public protocol AnyEntity {
+    static var entityType: EntityTypeKey { get }
     var id: EntityID { get }
 }
 
-public extension TypedEntity {
-    static var entityType: EntityType { EntityType(Self.self) }
+public extension AnyEntity {
+    static var entityType: EntityTypeKey { EntityTypeKey(Self.self) }
 }
 
-extension TypedEntity where Self: CustomStringConvertible {
+extension AnyEntity where Self: CustomStringConvertible {
     var description: String {
         return "\(Self.entityType)[\(id)]"
     }
 }
 
-public typealias Entity = (TypedEntity & Identifiable & CustomStringConvertible)
+public protocol Entity: AnyEntity, Identifiable, CustomStringConvertible {
+}
+
+//public typealias Entity = (AnyEntity & Identifiable & CustomStringConvertible)
 
 
 #if canImport(Tagged)
 import Tagged
 public enum EntityTypeTag {}
-public typealias EntityType = Tagged<EntityTypeTag, String>
+public typealias EntityID = Tagged<EntityTypeTag, Int64>
+public typealias EntityTypeKey = Tagged<EntityTypeTag, String>
 #else
 public typealias EntityID = Int64
 
-public struct EntityType: RawRepresentable, Equatable, ExpressibleByStringLiteral {
+public struct EntityTypeKey: RawRepresentable, Equatable, ExpressibleByStringLiteral {
     public var rawValue: String
     
     public init(rawValue: String) {
