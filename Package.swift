@@ -36,12 +36,16 @@ let package = Package(
                 "MomXML",
                 .product(name: "Runtime", package: "Runtime"),
                 .product(name: "FeistyExtensions", package: "FeistyDB"),
-            ]),
+            ]
+//            ,exclude: ["Tests/__Snapshots__"]
+        ),
         .testTarget(
             name: "CQITests",
             dependencies: [
                 "CQI",
-//                .product(name: "SnapshotTesting", package: "SnapshotTesting"),
-            ]),
+                .product(name: "SnapshotTesting", package: "SnapshotTesting"),
+            ]
+            ,exclude: ["__Snapshots__"]
+        ),
     ]
 )

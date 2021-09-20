@@ -1,7 +1,7 @@
 import XCTest
 @testable import CQI
 import MomXML
-//import SnapshotTesting
+import SnapshotTesting
 
 final class CQITests: XCTestCase {
     
@@ -19,11 +19,17 @@ final class CQITests: XCTestCase {
     
     func testSchema() throws {
         let schema = try EOModel([Topic.self])
-//        print (schema.model.entities.count, schema.model)
         let sql = schema.createTablesSQL()
-        print (sql)
+        assertSnapshot(matching: sql, as: .lines)
     }
     
+    func testSelectSQL() throws {
+        let schema = try EOModel([Topic.self])
+        let sql = schema.facets.first!.selectSQL()
+        assertSnapshot(matching: sql, as: .lines)
+    }
+
+    /*
     func testDatabase() throws {
         let schema = try EOModel([Topic.self])
         let db = DataStore(schema: schema)
@@ -43,6 +49,7 @@ final class CQITests: XCTestCase {
         XCTAssert (rec.id == r1?.id)
         XCTAssert (rec.id == recs.first?.id)
     }
+     */
 }
 
 
@@ -50,5 +57,6 @@ struct Topic: Entity {
     static let entityType: EntityTypeKey = "Topic"
     var id: Int64 = 0
     var name: String = "Jose"
+    var dob: Date?
 }
 

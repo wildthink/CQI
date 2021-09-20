@@ -8,10 +8,32 @@
 import Foundation
 import MomXML
 
+extension EOFacet {
+
+    func selectSQL() -> String {
+        let builder = StringBuilder () {
+        "SELECT "
+        for c in attributes where !c.isTransient {
+            if c != attributes.last {
+                c.name + ","
+            } else {
+                c.name
+            }
+        }
+        " FROM " + entityType.description
+        }
+        return builder.build(separator: " ")
+    }
+}
+
 extension MomModel {
     
+    @StringBuilder
     func createTablesSQL() -> String {
-        return entities.map { $0.createTableSQL() }.joined(separator: "\n")
+        for e in entities {
+            e.createTableSQL()
+        }
+//        return entities.map { $0.createTableSQL() }.joined(separator: "\n")
     }
 }
 

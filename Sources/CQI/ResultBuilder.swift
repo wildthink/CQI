@@ -53,11 +53,20 @@ public extension ResultBuilder {
 }
 
 @resultBuilder
-public enum StringBuilder: ReducingResultBuilder {
+public struct StringBuilder: ReducingResultBuilder {
     public typealias Expression = String
+    var content: Component
     
+    public init(@StringBuilder builder: () -> Component) {
+        content = builder()
+    }
+    
+    public func build(separator: String = " ") -> String {
+        Self.buildResultArray(content).joined(separator: separator)
+    }
+
     public static func buildFinalResult(_ component: Component) -> String {
-        buildResultArray(component).joined(separator: "\n")
+        buildResultArray(component).joined(separator: " ")
     }
 }
 

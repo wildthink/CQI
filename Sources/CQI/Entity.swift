@@ -9,7 +9,7 @@ import Foundation
 
 public protocol AnyEntity {
     static var entityType: EntityTypeKey { get }
-    var id: EntityID { get }
+    var id: EntityID { get set }
 }
 
 public extension AnyEntity {
@@ -53,5 +53,8 @@ public struct EntityTypeKey: RawRepresentable, Equatable, ExpressibleByStringLit
         self.rawValue = String(describing: etype)
     }
 }
-
 #endif
+
+extension EntityTypeKey: CustomStringConvertible {
+    public var description: String { rawValue }
+}

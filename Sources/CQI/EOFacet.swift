@@ -41,12 +41,18 @@ public struct EOError: Error {
 
 //=======================================
 extension MomAttribute {
+    
     init(_ pinfo: PropertyInfo) {
         self.init(name: pinfo.name,
                   attributeType: pinfo.attributeType,
                   isOptional: pinfo.isOptional,
                   isTransient: pinfo.name.hasPrefix("_"))
     }
+    
+//    var propertyInfo: PropertyInfo? {
+//        get { userInfo.entries[#function] as? PropertyInfo }
+//        set { userInfo.add(key: #function, value: <#T##String#>) [#function] = newValue }
+//    }
 }
 
 extension MomModel {
@@ -99,7 +105,8 @@ extension MomEntity {
 
 public extension PropertyInfo {
     var attributeType: MomAttribute.AttributeType {
-        switch self.type {
+        let ptype = isOptional ? self.elementType : self.type
+        switch ptype {
 //            case _ where db_value.isNull:
             case is Bool.Type:      return .string
             case is String.Type:    return .string
