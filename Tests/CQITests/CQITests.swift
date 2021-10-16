@@ -2,8 +2,18 @@ import XCTest
 @testable import CQI
 import MomXML
 import SnapshotTesting
+import Runtime
+
+extension EIDGenerator {
+    func callAsFunction() -> EntityID {
+        let ndx = self.nextValue(group: nil)
+        return EntityID(ndx)
+    }
+}
 
 final class CQITests: XCTestCase {
+    
+    var egen = EIDGenerator(groupNumber: 0)
     
     func testModel() throws {
         let url = URL(fileURLWithPath: #filePath)
@@ -15,6 +25,18 @@ final class CQITests: XCTestCase {
         XCTAssertNotNil(model)
 //        let cdm = model.coreData
 //        print (cdm)
+    }
+    
+    func testRuntime() throws {
+        var t = Topic(id: egen())
+        let info = try typeInfo(of: Topic.self)
+        let pinfo = try info.property(named: "const")
+        print (t.name, t.const)
+        let first = t.const
+        try pinfo.set(value: 78.0, on: &t)
+        let second = t.const
+        print (t.name, t.const)
+        XCTAssert(first != second)
     }
     
     func testSchema() throws {
@@ -55,8 +77,9 @@ final class CQITests: XCTestCase {
 
 struct Topic: Entity {
     static let entityType: EntityTypeKey = "Topic"
-    var id: Int64 = 0
+    var id: EntityID
     var name: String = "Jose"
     var dob: Date?
+    let const: Double = 23
 }
 

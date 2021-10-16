@@ -11,41 +11,41 @@ import MomXML
 extension EOFacet {
 
     func selectSQL() -> String {
-        let builder = StringBuilder () {
+        StringBuilder {
         "SELECT "
         for c in attributes where !c.isTransient {
-            if c != attributes.last {
-                c.name + ","
-            } else {
-                c.name
-            }
+            c.name
+            if c != attributes.last { "," }
         }
         " FROM " + entityType.description
         }
-        return builder.build(separator: " ")
+        .build(separator: .empty)
     }
 }
 
 extension MomModel {
     
-    @StringBuilder
     func createTablesSQL() -> String {
-        for e in entities {
-            e.createTableSQL()
+        StringBuilder  {
+            for e in entities {
+                e.createTableSQL()
+            }
         }
-//        return entities.map { $0.createTableSQL() }.joined(separator: "\n")
+        .build(separator: .newline)
     }
 }
 
 extension String {
     static var tab: String { "\t" }
-    static var nl: String { "\n" }
+    static var newline: String { "\n" }
+    static var space: String { " " }
+    static var empty: String { "" }
 }
+
 extension MomEntity {
     
-    @StringBuilder
     func createTableSQL() -> String {
-        
+        StringBuilder {
         "CREATE TABLE \(self.name) ("
         for col in attributes {
             if col == attributes.last {
@@ -55,42 +55,22 @@ extension MomEntity {
             }
         }
         ");"
+        }.build(separator: .newline)
     }
-
-
-//    func createTableSQL() -> String {
-//        let columns = self.attributes.map { $0.createColumnSQL() }
-//
-//        return """
-//            CREATE TABLE \(self.name) (
-//                \(columns.joined(separator: ",\n\t"))
-//            );
-//        """
-//    }
 }
 
 extension MomAttribute {
     
-    @StringBuilder
     func createColumnSQL() -> String {
-        if isDerived {
-          "\(name) \(sqliteType) GENERATED AS (\(derivationExpression ?? name)) VIRTUAL"
-        } else {
-            if name == "id" {
-                "\(name) \(sqliteType) PRIMARY KEY"
-            } else {
-                "\(name) \(sqliteType)"
+        StringBuilder {
+            "\(name) \(sqliteType)"
+            if isDerived {
+                "GENERATED AS (\(derivationExpression ?? name)) VIRTUAL" }
+            else if name == "id" {
+                " PRIMARY KEY"
             }
-        }
+        }.build(separator: .empty)
     }
-
-//    func createColumnSQL() -> String {
-//        isDerived
-//        ? "\(name) \(sqliteType) GENERATED AS (\(derivationExpression ?? name)) VIRTUAL"
-//        : (name == "id"
-//           ? "\(name) \(sqliteType) PRIMARY KEY"
-//           : "\(name) \(sqliteType)")
-//    }
     
 }
 
@@ -122,16 +102,6 @@ extension MomAttribute.AttributeType {
         }
     }
 }
-
-//public extension NSDerivedAttributeDescription {
-//    @objc override func sql_create() -> String {
-//        guard let dexp = derivationExpression
-//        else { return name }
-//
-//        return
-//        "\(name) \(attributeType.sql_type) GENERATED AS (\(dexp.sql)) VIRTUAL"
-//    }
-//}
 
 public extension NSExpression {
     var sql: String {

@@ -13,7 +13,9 @@ public protocol AnyEntity {
 }
 
 public extension AnyEntity {
-    static var entityType: EntityTypeKey { EntityTypeKey(Self.self) }
+    static var entityType: EntityTypeKey {
+        EntityTypeKey(rawValue: String(describing: Self.self))
+    }
 }
 
 extension AnyEntity where Self: CustomStringConvertible {
@@ -21,6 +23,15 @@ extension AnyEntity where Self: CustomStringConvertible {
         return "\(Self.entityType)[\(id)]"
     }
 }
+
+public protocol Scope {
+}
+
+public protocol Scoped {
+    var _scope: Scope { get set }
+}
+
+public struct EmptyScope: Scope {}
 
 public protocol Entity: AnyEntity, Identifiable, CustomStringConvertible {
 }
@@ -33,6 +44,7 @@ import Tagged
 public enum EntityTypeTag {}
 public typealias EntityID = Tagged<EntityTypeTag, Int64>
 public typealias EntityTypeKey = Tagged<EntityTypeTag, String>
+
 #else
 public typealias EntityID = Int64
 
@@ -53,8 +65,9 @@ public struct EntityTypeKey: RawRepresentable, Equatable, ExpressibleByStringLit
         self.rawValue = String(describing: etype)
     }
 }
-#endif
 
 extension EntityTypeKey: CustomStringConvertible {
     public var description: String { rawValue }
 }
+#endif
+

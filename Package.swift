@@ -21,6 +21,7 @@ let package = Package(
         .package(url: "https://github.com/wildthink/MomXML", .branch("master")),
         .package(url: "https://github.com/wildthink/FeistyDB", .branch("master")),
         .package(url: "https://github.com/wildthink/Runtime", .branch("master")),
+        .package(url: "https://github.com/pointfreeco/swift-tagged", from: "0.6.0"),
         .package(name: "SnapshotTesting",
                  url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
                  from: "1.9.0"),
@@ -36,7 +37,10 @@ let package = Package(
                 "MomXML",
                 .product(name: "Runtime", package: "Runtime"),
                 .product(name: "FeistyExtensions", package: "FeistyDB"),
-            ]
+                .product(name: "SnapshotTesting", package: "SnapshotTesting"),
+                .product(name: "Tagged", package: "swift-tagged"),
+
+                            ]
 //            ,exclude: ["Tests/__Snapshots__"]
         ),
         .testTarget(

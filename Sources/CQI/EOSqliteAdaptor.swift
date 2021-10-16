@@ -12,6 +12,9 @@ import FeistyExtensions
 import Runtime
 import MomXML
 
+// For GEO Distance Extension
+import CoreLocation
+
 /**
  @DomainObject(id: 2) var nob: NobStruct
  @DomainList(where: "age < 10") var nobs: [NobStruct]
@@ -102,8 +105,40 @@ open class EOSqliteAdaptor {
     }
     
     open func addExtensions() throws {
+        // GEO Distance - uses CoreLocation
+//        let gloc: CLLocation = CLLocation(latitude: 0, longitude: 0)
+//        let dist = gloc.distance(from: gloc)
     }
     
+    func insertDictionary(columns: [String]?, from: [String: Any]) {
+        // sql
+        // exec(sql)
+    }
+
+//    func importDictionaries(columns: [String]? = nil, from dicts: [Dictionary<String, AnyObject>]) {
+//        guard let cols = columns ?? dicts[0].keys as? [String]
+//        else { return }
+//
+//        for row in dicts {
+//            insertDictionary(columns: cols, from: row)
+//        }
+//    }
+    
+    func importJSON(from file: URL, into table: String, columns: [String]? = nil) {
+        do {
+            let data = try Data(contentsOf: file)
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            
+            if let nobs = json as? [String: Any] {
+                insertDictionary(columns: columns, from: nobs)
+                
+            } else {
+                print("JSON is invalid")
+            }
+         } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 public struct CQIError: Swift.Error {

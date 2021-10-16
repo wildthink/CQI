@@ -27,7 +27,12 @@ public protocol ReducingResultBuilder: ResultBuilder {
 }
 
 public extension ResultBuilder {
+    
     static func buildExpression(_ expression: Expression) -> Component { .expression(expression) }
+    static func buildExpression(_ expression: Component) -> Component {
+        expression
+    }
+
     static func buildBlock(_ components: Component...) -> Component { .block(components) }
     static func buildArray(_ components: [Component]) -> Component { .block(components) }
     static func buildLimitedAvailability(_ component: Component) -> Component { component }
@@ -35,6 +40,7 @@ public extension ResultBuilder {
     static func buildEither(first component: Component) -> Component { .cond(component) }
     static func buildEither(second component: Component) -> Component { .cond(component) }
     static func buildOptional(_ component: Component?) -> Component { .optional(component) }
+    
     static func buildFinalResult(_ component: Component) -> Component { component }
 }
 
@@ -54,17 +60,16 @@ public extension ResultBuilder {
 
 @resultBuilder
 public struct StringBuilder: ReducingResultBuilder {
+    
     public typealias Expression = String
     var content: Component
     
     public init(@StringBuilder builder: () -> Component) {
         content = builder()
     }
-    
     public func build(separator: String = " ") -> String {
         Self.buildResultArray(content).joined(separator: separator)
     }
-
     public static func buildFinalResult(_ component: Component) -> String {
         buildResultArray(component).joined(separator: " ")
     }
@@ -75,11 +80,7 @@ public extension StringBuilder {
     static func buildExpression(_ expression: Int) -> Component {
         .expression("\(expression)")
     }
-    static func buildExpression(_ expression: Component) -> Component {
-        expression
-    }
     static func buildFinalResult(_ component: Component) -> [String] {
         buildResultArray(component)
     }
-    
 }
