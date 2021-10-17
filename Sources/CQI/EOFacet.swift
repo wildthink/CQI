@@ -21,7 +21,7 @@ public struct EOFacet {
     public init(name: String? = nil, of etype: EntityTypeKey? = nil, type: AnyEntity.Type) throws {
         let info = try typeInfo(of: type)
         self.name = name ?? info.name
-        self.entityType = etype ?? EntityTypeKey(self.name)
+        self.entityType = etype ?? EntityTypeKey(rawValue: self.name)
         self.facetInfo = info
         attributes = info.properties.map { MomAttribute($0) }
     }

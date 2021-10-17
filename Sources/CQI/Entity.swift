@@ -45,6 +45,22 @@ public enum EntityTypeTag {}
 public typealias EntityID = Tagged<EntityTypeTag, Int64>
 public typealias EntityTypeKey = Tagged<EntityTypeTag, String>
 
+extension EntityID {
+    public init(_ value: Int64) {
+        self.init(rawValue: value)
+    }
+}
+
+extension EntityTypeKey {
+    public init(_ value: String) {
+        self.init(rawValue: value)
+    }
+    
+    public init(_ etype: Any.Type) {
+        self.init(rawValue: String(describing: etype))
+    }
+}
+
 #else
 public typealias EntityID = Int64
 
