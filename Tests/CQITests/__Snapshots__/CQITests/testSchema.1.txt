@@ -1,0 +1,6 @@
+CREATE TABLE Topic (
+	id INTEGER PRIMARY KEY,
+	name TEXT,
+	dob TEXT DATE,
+	const 
+);
