@@ -37,7 +37,6 @@ let package = Package(
                 "MomXML",
                 .product(name: "Runtime", package: "Runtime"),
                 .product(name: "FeistyExtensions", package: "FeistyDB"),
-                .product(name: "SnapshotTesting", package: "SnapshotTesting"),
                 .product(name: "Tagged", package: "swift-tagged"),
 
                             ]
